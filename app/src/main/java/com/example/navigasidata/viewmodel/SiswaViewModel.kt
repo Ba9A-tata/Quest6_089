@@ -1,10 +1,25 @@
 package com.example.navigasidata.viewmodel
 
 import androidx.lifecycle.ViewModel
+import androidx.room.util.copy
 import com.example.navigasidata.model.Siswa
 import kotlinx.coroutines.flow.MutableStateFlow
+import kotlinx.coroutines.flow.StateFlow
+import kotlinx.coroutines.flow.asStateFlow
+import kotlinx.coroutines.flow.update
+
 
 class SiswaViewModel : ViewModel() {
-    private  val _statusUi = MutableStateFlow(Siswa())
+    private  val _statusUI = MutableStateFlow(Siswa())
+    val statusUI: StateFlow<Siswa> = _statusUI.asStateFlow()
 
+    fun setSiswa(ls: MutableList<String>) {
+        _statusUI.update { statusSaatini ->
+            statusSaatini.copy(
+            nama = ls[0],
+            gender = ls[1],
+            alamat = ls[2]
+            )
+        }
+    }
 }

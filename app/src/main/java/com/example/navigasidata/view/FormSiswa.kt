@@ -9,10 +9,12 @@ import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.width
+import androidx.compose.foundation.selection.selectable
 import androidx.compose.material3.Button
 import androidx.compose.material3.DividerDefaults.Thickness
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.HorizontalDivider
+import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.OutlinedTextField
 import androidx.compose.material3.RadioButton
 import androidx.compose.material3.Scaffold
@@ -39,75 +41,94 @@ fun FormIsian(
     pilihanJK: List<String>,
     onSubmitBtnClick : (MutableList<String>) -> Unit,
     modifier: Modifier = Modifier
-){
+) {
     var txtNama by rememberSaveable { mutableStateOf("") }
-    var txtAlamat  by remember {mutableStateOf("")}
-    var txtGender by remember {mutableStateOf("")}
+    var txtAlamat by remember { mutableStateOf("") }
+    var txtGender by remember { mutableStateOf("") }
     val listData: MutableList<String> = mutableListOf(
         txtNama,
         txtGender,
         txtAlamat
     )
 
-    Scaffold (modifier= Modifier,
+    Scaffold(
+        modifier = Modifier,
         {
             TopAppBar(
-                title = { Text(stringResource(id= R.string.home),
-                    color = Color.White)},
+                title = {
+                    Text(
+                        stringResource(id = R.string.home),
+                        color = Color.White
+                    )
+                },
                 colors = TopAppBarDefaults.topAppBarColors
-                    (colorResource(id= R.color.teal_700))
+                    (colorResource(id = R.color.teal_700))
             )
         }
-    ){ isiRuang ->
-        Column(modifier = Modifier.padding(isiRuang),
+    ) { isiRuang ->
+        Column(
+            modifier = Modifier.padding(isiRuang),
             verticalArrangement = Arrangement.Top,
-            horizontalAlignment = Alignment.CenterHorizontally)
+            horizontalAlignment = Alignment.CenterHorizontally
+        )
         {
             OutlinedTextField(
                 value = "",
                 singleLine = true,
                 modifier = Modifier
-                    .padding(top=20.dp)
+                    .padding(top = 20.dp)
                     .width(250.dp),
-                label = {Text("NAMA LENGKAP")},
+                label = { Text("NAMA LENGKAP") },
                 onValueChange = {},
             )
-            HorizontalDivider(modifier = Modifier
-                .padding(20.dp)
-                .width(250.dp), thickness = Thickness,color=
-                Color.Red)
-            Row{
-                pilihanJK.forEach {
-                        item ->
-                    Row(verticalAlignment =  Alignment.CenterVertically){
+            HorizontalDivider(
+                modifier = Modifier
+                    .padding(20.dp)
+                    .width(250.dp), thickness = Thickness, color =
+                    Color.Red
+            )
+            Row {
+                pilihanJK.forEach { item ->
+                    Row(
+                        modifier = Modifier.selectable(
+                            selected = txtGender == item,
+                            onClick = {
+                                txtGender = item
+                            }
+                        ),
+                        verticalAlignment = Alignment.CenterVertically
+                    ) {
                         RadioButton(
-                            selected = false,
-                            onClick = {item}
+                            selected = txtGender == item,
+                            onClick = { txtGender = item }
                         )
                         Text(text = item)
                     }
                 }
-            }
-            HorizontalDivider(modifier  = Modifier
-                .padding(20.dp)
-                .width(250.dp),
-                thickness = 1.dp,
-                color = Color.Red
-            )
-            OutlinedTextField(
-                value = "",
-                singleLine = true,
-                modifier = Modifier
-                    .width(250.dp),
-                label = {Text("ALAMAT")},
-                onValueChange = {},
-            )
-            Spacer(modifier = Modifier.height(30.dp))
-            Button(
-                modifier = Modifier.fillMaxWidth(1f),
-                onClick = onSubmitBtnClick
-            ){
-                Text(stringResource(id = R.string.submit))
+                HorizontalDivider(
+                    modifier = Modifier
+                        .padding(20.dp)
+                        .width(250.dp),
+                    thickness = 1.dp,
+                    color = Color.Red
+                )
+                OutlinedTextField(
+                    value = txtAlamat,
+                    singleLine = true,
+                    shape = MaterialTheme.shapes.medium,
+                    modifier = Modifier.width(250.dp),
+                    label = { Text("ALAMAT") },
+                    onValueChange = {
+                        txtAlamat = it
+                    },
+                )
+                Spacer(modifier = Modifier.height(30.dp))
+                Button(
+                    modifier = Modifier.fillMaxWidth(1f),
+                    onClick = onSubmitBtnClick
+                ) {
+                    Text(stringResource(id = R.string.submit))
+                }
             }
         }
     }
