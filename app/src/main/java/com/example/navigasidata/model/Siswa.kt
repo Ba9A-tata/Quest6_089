@@ -1,3 +1,5 @@
 package com.example.navigasidata.model
 
-data class Siswa()
+data class Siswa(
+    val nama : String="",
+)
