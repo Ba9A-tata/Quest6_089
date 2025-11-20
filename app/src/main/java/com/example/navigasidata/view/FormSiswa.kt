@@ -39,7 +39,7 @@ import com.example.navigasidata.R
 @Composable
 fun FormIsian(
     pilihanJK: List<String>,
-    onSubmitBtnClick : (MutableList<String>) -> Unit,
+    onSubmitButtonClicked : (MutableList<String>) -> Unit,
     modifier: Modifier = Modifier
 ) {
     var txtNama by rememberSaveable { mutableStateOf("") }
